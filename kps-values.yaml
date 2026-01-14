@@ -1,0 +1,51 @@
+# helm install kps prometheus-community/kube-prometheus-stack -n monitoring -f kps-values.yaml
+grafana:
+  adminPassword: "change-your-password"   # not my actual pwd :]
+  ingress:
+    enabled: true
+    annotations:
+      kubernetes.io/ingress.class: traefik
+    hosts:
+      - grafana.k8s.lan
+    path: /
+    pathType: Prefix
+  persistence:
+    enabled: true
+    size: 5Gi
+
+prometheus:
+  ingress:
+    enabled: true
+    annotations:
+      kubernetes.io/ingress.class: traefik
+    hosts:
+      - prometheus.k8s.lan
+    paths:
+      - /
+  prometheusSpec:
+    retention: 7d
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage: 20Gi
+
+alertmanager:
+  ingress:
+    enabled: true
+    annotations:
+      kubernetes.io/ingress.class: traefik
+    hosts:
+      - alertmanager.k8s.lan
+    paths:
+      - /
+  alertmanagerSpec:
+    storage:
+      volumeClaimTemplate:
+        spec:
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage: 2Gi
