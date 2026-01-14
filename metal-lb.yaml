@@ -1,3 +1,4 @@
+# first install CRD - sudo kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.15.3/config/manifests/metallb-native.yaml
 apiVersion: metallb.io/v1beta1
 kind: IPAddressPool
 metadata:
