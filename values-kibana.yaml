@@ -1,0 +1,31 @@
+# k8s/values-kibana.yaml
+# Kibana exposed through Traefik ingress on kibana.k8s.lan
+# helm upgrade --install kibana elastic/kibana -n elastic -f values-kibana.yaml
+
+replicas: 1
+
+resources:
+  requests:
+    cpu: "100m"
+    memory: "512Mi"
+  limits:
+    memory: "1Gi"
+
+service:
+  type: ClusterIP
+  port: 5601
+
+# Points Kibana at the in-cluster Elasticsearch service name created by the elastic/elasticsearch chart
+elasticsearchHosts: "https://elasticsearch-master:9200"
+elasticsearchCertificateSecret: elasticsearch-master-certs
+elasticsearchCertificateAuthoritiesFile: ca.crt
+elasticsearchCredentialSecret: elasticsearch-master-credentials
+
+ingress:
+  enabled: true
+  className: traefik
+  hosts:
+    - host: kibana.k8s.lan
+      paths:
+        - path: /
+          pathType: Prefix
