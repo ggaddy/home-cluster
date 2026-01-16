@@ -1,5 +1,6 @@
 # k8s/values-kibana.yaml
 # Kibana exposed through Traefik ingress on kibana.k8s.lan
+# helm repo add elastic https://helm.elastic.co
 # helm upgrade --install kibana elastic/kibana -n elastic -f values-kibana.yaml
 
 replicas: 1
